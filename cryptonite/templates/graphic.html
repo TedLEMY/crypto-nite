@@ -1,0 +1,655 @@
+<html style="background-color: black;">
+
+
+  <head>
+    <title>Crypto-nite</title>
+    <meta name="Krypto kollateral" content="Find in financial information about cryptocurrencies">
+    <link rel="shortcut icon" href="/static/icon.png">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  </head>
+
+
+  <video src="{{ url_for('static', filename='background2.mp4') }}" autoplay loop muted ></video>
+
+
+  <body>
+
+    <div class="page_container">
+        <div class="section_container" id="board">
+
+
+          <div class="inner_container_board" id="btc_board">
+            <div class="board_title">
+              <p>BITCOIN</p>
+            </div>
+
+            <div class="board_price">
+              <p id="btc_price"></p>
+            </div>
+
+            <div class="board_time24">
+              <p class="board_time_p">24h</p>
+            </div>
+
+            <div class="board_time7">
+              <p class="board_time_p">7d</p>
+            </div>
+
+            <div class="board_change24">
+              <p style="color: {{btc_color_24}}" id="btc_change_24"></p>
+            </div>
+
+            <div class="board_change7">
+              <p style="color: {{btc_color_7}}" id="btc_change_7"></p>
+
+            </div>
+          </div>
+
+
+
+
+          <div class="inner_container_board" id="eth_board">
+            <div class="board_title">
+              <p>ETHEREUM</p>
+            </div>
+            <div class="board_price">
+              <p id="eth_price"></p>
+            </div>
+
+            <div class="board_time24">
+              <p class="board_time_p" >24h</p>
+            </div>
+
+            <div class="board_time7">
+              <p class="board_time_p">7d</p>
+            </div>
+
+            <div class="board_change24">
+              <p style="color: {{eth_color_24}}" id="eth_change_24"></p>
+            </div>
+
+            <div class="board_change7">
+              <p style="color: {{eth_color_7}}" id="eth_change_7"></p>
+            </div>
+          </div>
+
+
+
+
+          <div class="inner_container_board" id="alt_board">
+            <div class="board_title">
+              <p class="board_time_p">RANKING</p>
+            </div>
+
+            <div class="board_ranking">
+              <div class="rank_element" id="rank_one"><p></p></div>
+              <div class="rank_element" id="rank_two"><p></p></div>
+              <div class="rank_element" id="rank_three" ><p></p></div>
+              <div class="rank_element"id="rank_four"><p></p></div>
+              <div class="rank_element" id="rank_five"><p></p></div>
+              <div class="rank_element" id="rank_six"><p></p></div>
+              <div class="rank_element" id="rank_seven"><p></p></div>
+              <div class="rank_element" id="rank_eigth"><p></p></div>
+              <div class="rank_element" id="rank_nine"><p></p></div>
+              <div class="rank_element" id="rank_ten"><p></p></div>
+
+            </div>
+          </div>
+        </div>
+
+
+        <div class="section_container" id="main">
+          <form action="/staking" method="POST">
+
+          <div id="calculator">
+            <script>
+
+              var xValues = [];
+              var yValues = [];
+              var change_month = [];
+
+              var months = {{months}} + 1;
+              var amount = {{amount}};
+              var interest = {{interest}} / 12;
+              var inflation = {{inflation}} / 12;
+              var burn = {{burn}} / 12;
+              var compound = {{compound}};
+              var ticker = "{{ticker}}".toUpperCase();
+              var final_rate = (interest + burn) - inflation;
+
+
+
+
+              for (i = 0; i < months; i++)
+              {
+                xValues.push(i);
+              }
+              console.log(xValues);
+
+
+
+              if (compound == 0)
+              {
+                var to_change = (final_rate/100) * amount;
+
+                for (i = 0; i < months; i++)
+                {
+                  yValues.push(amount);
+                  amount += to_change;
+                }
+              }
+
+              else if (compound == 1)
+              {
+                var to_change = (final_rate/100);
+
+                for (i = 0; i < months; i++)
+                {
+                  yValues.push(amount);
+                  amount += to_change * amount;
+                }
+              }
+
+
+              function getGraphColor()
+              {
+                if (final_rate > 0)
+                {
+                  return '#4dff4d';
+                }
+
+                else
+                {
+                  return '#ff4d4d';
+                }
+              }
+
+
+
+
+
+
+            </script>
+
+
+            <div class="calculator_items" id="graph">
+              <canvas id="myChart" width="4" height="2"></canvas>
+              <center><p style="color: #5c635e; font-size: 2vh;">Months</p></center>
+
+            </div>
+
+            <div id="controls">
+
+
+              <div class="control_buttons" id="back_button">
+                <input type="submit" name="back" value="back" class="inner_button" id="inner_button_b">
+              </div>
+
+            </div>
+
+
+
+
+          </div>
+          </form>
+        </div>
+
+
+
+
+
+
+        <div class="section_container" id="sidebar">
+          <a href="/" style="text-decoration: none;">
+            <div class="inner_container" id="logo_section">
+              <img src="{{ url_for('static', filename='logo.png') }}" id="logo">
+              <p class="glowing_p" id="title">Crypto-nite</p>
+            </div>
+          </a>
+
+
+          <div class="inner_container" id="menu">
+            <nav>
+              <div class="menu_item" style="background-color: #3e3e40;">
+                <p class="menu_p ">Staking</p>
+              </div>
+
+              <div class="menu_item">
+                <a href="/mining" style="text-decoration: none;">
+                  <p class="menu_p">Mining</p>
+                </a>
+              </div>
+
+
+              <div class="menu_item">
+                <a href="/contact" style="text-decoration: none;">
+                  <p class="menu_p">Contact</p>
+                </a>
+              </div>
+
+              <div class="menu_item">
+                <a href="https://github.com/TedLEMY/crypto-nite" style="text-decoration: none;">
+                  <p class="menu_p">Git hub</p>
+                </a>
+              </div>
+
+            </nav>
+
+          </div>
+        </div>
+    </div>
+
+
+    <script>
+      var eventSource = new EventSource("/listen")
+
+      eventSource.addEventListener("online", function(e) {
+        const data = JSON.parse(e.data);
+
+        document.getElementById("btc_price").innerHTML = data.btc_price;
+        document.getElementById("btc_change_24").innerHTML = data.btc_change_24;
+        document.getElementById("btc_change_7").innerHTML = data.btc_change_7;
+        document.getElementById("btc_change_24").style.color = data.btc_color_24;
+        document.getElementById("btc_change_7").style.color = data.btc_color_7;
+
+        document.getElementById("eth_price").innerHTML = data.eth_price;
+        document.getElementById("eth_change_24").innerHTML = data.eth_change_24;
+        document.getElementById("eth_change_7").innerHTML = data.eth_change_7;
+        document.getElementById("eth_change_24").style.color = data.eth_color_24;
+        document.getElementById("eth_change_7").style.color = data.eth_color_7;
+
+        document.getElementById("rank_one").innerHTML = data.rank_one;
+        document.getElementById("rank_two").innerHTML = data.rank_two;
+        document.getElementById("rank_three").innerHTML = data.rank_three;
+        document.getElementById("rank_four").innerHTML = data.rank_four;
+        document.getElementById("rank_five").innerHTML = data.rank_five;
+        document.getElementById("rank_six").innerHTML = data.rank_six;
+        document.getElementById("rank_seven").innerHTML = data.rank_seven;
+        document.getElementById("rank_eigth").innerHTML = data.rank_eigth;
+        document.getElementById("rank_nine").innerHTML = data.rank_nine;
+        document.getElementById("rank_ten").innerHTML = data.rank_ten;
+
+      }, true)
+
+
+        function update_value(value, show, suffix)
+        {
+
+          document.getElementById(show).innerHTML = value + " " + suffix;
+
+        }
+
+        function update_color(value)
+        {
+
+          if (value == 0) {
+            document.documentElement.style.setProperty('--switch-color', '#ff4d4d');
+          }
+
+          else
+          {
+            document.documentElement.style.setProperty('--switch-color', '#4dff4d');
+          }
+        }
+
+    </script>
+
+
+    <script>
+
+    var labels = xValues;
+    var data = {
+      labels: labels,
+      datasets: [{
+        label: 'Amount of ' + ticker + ' at the current price',
+        backgroundColor: getGraphColor(),
+        borderColor: getGraphColor(),
+        data: yValues,
+      }]
+    };
+
+    var config = {
+      type: 'line',
+      data,
+      options: {}
+    };
+
+    var myChart = new Chart(
+      document.getElementById('myChart'),
+      config
+    );
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </body>
+
+
+
+<style>
+
+:root{
+  --switch-color: #ff4d4d;
+}
+
+html{
+  margin: 0px;
+}
+
+
+body{
+  margin: 0px;
+}
+
+
+.page_container {
+  max-width: 90%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 20vh 101%;
+  grid-template-rows: 30vh 40vh  101%;
+  grid-template-areas: 'sidebar board'
+                       'sidebar main'
+                       'sidebar main';
+
+}
+
+.inner_container_board {
+  display: grid;
+  grid-template-columns:  50% 50%;
+  grid-template-rows: 15% 24% 24% 24%;
+  grid-template-areas: 'board_title board_title '
+                       'board_price board_price '
+                       'board_time24 board_change24'
+                       'board_time7 board_change7 ';
+}
+
+.board_title{
+  grid-area: board_title;
+  text-align: center;
+}
+
+.board_price{
+  grid-area: board_price;
+  text-align: center;
+
+}
+
+.board_change24{
+  grid-area: board_change24;
+}
+
+.board_change7{
+  grid-area: board_change7;
+}
+
+
+.board_time24{
+  grid-area: board_time24;
+}
+
+.board_time7{
+  grid-area: board_time7;
+}
+
+.board_time_p{
+  color: white;
+  font: 2vh Inconsolata, monospace;
+  height: 40%;
+  text-align: center;
+}
+
+.board_ranking{
+  margin-top: 3vh;
+  grid-template: board_ranking;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows:  20% 20% 20% 20% 20%;
+  grid-template-areas: 'rank_one rank_six'
+                       'rank_two rank_seven'
+                       'rank_three rank_eigth'
+                       'rank_four rank_nine'
+                       'rank_five rank_ten';
+
+}
+
+.inner_container_board > div > p {
+  color: white;
+  font: 2vh Inconsolata, monospace;
+  text-align: center;
+}
+
+.glowing_p {
+  color: white;
+  width: 100%;
+  font: 1.9vh Inconsolata, monospace;
+  text-shadow: 0 0 5px #FFFFFF,
+               0 0 10px #000000,
+               0 0 10px #000000,
+               0 0 15px #FFFFFF,
+               0 0 20px #17FF17,
+               0 0 20px #17FF17,
+               0 0 30px #17FF17,
+               2px 2px 2px rgba(206,89,55,0);
+}
+
+
+.menu_item{
+  height: 10%;
+
+}
+
+.menu_p {
+  color: white;
+  text-align: center;
+  font: 1.9vh Inconsolata, monospace;
+  padding-top: 15%;
+}
+
+.rank_element{
+  display: grid;
+  color: white;
+  font: 2vh Inconsolata, monospace;
+  text-align: center;
+
+}
+
+.board_ranking{
+  grid-area: board_ranking;
+}
+
+video {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -999;
+}
+
+#alt_board {
+  display: grid;
+  grid-template-columns:  50% 50%;
+  grid-template-rows: 10% 60%;
+  grid-template-areas: 'board_title board_title '
+                       'board_ranking board_ranking';
+}
+
+#logo {
+  width: 100%;
+}
+
+#board {
+  grid-area: board;
+  display: grid;
+  grid-template-columns: 1 1 1;
+  grid-template-areas: 'btc_board eth_board top_10_alt_board';
+}
+
+#main {
+  grid-area: main;
+  background-color: #3e3e40;
+  margin-right: 0%;
+}
+
+#sidebar {
+  grid-area: sidebar;
+  position: sticky;
+  background-color: black;
+}
+
+#menu {
+  grid-area: menu;
+  position: sticky;
+  background-color: black;
+  height: 75vh;
+  top: 12.5%;
+}
+
+#logo_section {
+  background-color: black;
+  grid-area: logo_section;
+  position: sticky;
+  height: 28.1vh;
+}
+
+#title {
+  width: 90%;
+  margin-left: 20%;
+}
+
+#btc_board {
+  grid-area: btc_board;
+}
+
+#eth_board {
+  grid-area: eth_board;
+}
+
+#top_10_alt_board {
+  grid-area: top_10_alt_board;
+}
+
+#rank_one {
+  grid-area: rank_one;
+}
+
+#rank_two {
+  grid-area: rank_two;
+}
+
+#rank_three {
+  grid-area: rank_three;
+}
+
+#rank_four {
+  grid-area: rank_four;
+}
+
+#rank_five {
+  grid-area: rank_five;
+}
+
+#rank_six {
+  grid-area: rank_six;
+}
+
+#rank_seven {
+  grid-area: rank_seven;
+}
+
+#rank_eigth {
+  grid-area: rank_eigth;
+}
+
+#rank_nine {
+  grid-area: rank_nine;
+}
+
+#rank_ten {
+  grid-area: rank_ten;
+}
+
+#calculator
+{
+  width: 90%;
+  height: 95%;
+  margin-left: 5%;
+  margin-top: 2.5%;
+  display: grid;
+  grid-template-columns: 30% 70%;
+  grid-template-rows: 30% 70%;
+  grid-template-areas: 'controls controls'
+                          'graph graph';
+}
+
+
+#graph
+{
+  grid-area: graph;
+  border: 2px solid white;
+  border-radius: 5px;
+  height: 100%;
+  width: 100%;
+
+}
+
+#controls
+{
+  grid-area: controls;
+  display: grid;
+  grid-template-columns: : '1 1';
+  grid-template-areas: 'back_button download_button';
+}
+
+.calculator_items
+{
+  font: 2.5vh Inconsolata, monospace;
+}
+
+#download_button
+{
+  grid-area: download_button;
+}
+
+#back_button
+{
+  grid-area: back_button;
+}
+
+.inner_button
+{
+  width: 50%;
+  height: 20%;
+  border: none;
+  border-radius: 5px;
+  margin-left: 20%;
+  margin-top: 5%;
+}
+
+
+.menu_item:hover{background-color: #3e3e40;}
+#inner_button_d:hover{background-color: #4dff4d; color: white;}
+#inner_button_b:hover{background-color: #ff4d4d; color: white;}
+
+</style>
+
+</html>

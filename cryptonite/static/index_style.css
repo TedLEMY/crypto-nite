@@ -1,0 +1,113 @@
+body{
+  margin: 0px;
+}
+
+.page_container {
+  max-width: 90%;
+  height: 100%;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 20vh 100% ;
+  grid-template-rows: 25vh 37vh 37vh 100%;
+  grid-template-areas: 'sidebar board'
+                       'sidebar main'
+                       'sidebar main'
+                       'sidebar main';
+
+}
+
+.section_container {
+}
+
+.inner_container_board {
+  border: 1px solid yellow;
+}
+
+
+.glowing_p {
+  color: white;
+  width: 100%;
+  font: 2vh Inconsolata, monospace;
+  text-shadow: 0 0 5px #FFFFFF,
+               0 0 10px #000000,
+               0 0 10px #000000,
+               0 0 15px #FFFFFF,
+               0 0 20px #17FF17,
+               0 0 30px #17FF17,
+               2px 2px 2px rgba(206,89,55,0);
+}
+
+div {
+
+}
+
+video {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -999;
+}
+
+#logo {
+  width: 100%;
+}
+
+#board {
+  grid-area: board;
+  display: grid;
+  grid-template-columns: 1 1 1;
+  grid-template-areas: 'btc_board eth_board top_10_alt_board';
+}
+
+#main {
+  grid-area: main;
+  background-color: #b6b8b6;
+}
+
+#main2 {
+  grid-area: main2;
+  background-color: #b6b8b6;
+}
+
+#sidebar {
+  grid-area: sidebar;
+  position: sticky;
+  background-color: black;
+}
+
+#menu {
+  grid-area: menu;
+  position: sticky;
+  background-color: black;
+  height: 75vh;
+  top: 12.5%;
+  border: 1px solid yellow;
+}
+
+#logo_section {
+  background-color: black;
+  grid-area: logo_section;
+  position: sticky;
+  height: 25vh;
+}
+
+#title {
+  width: 90%;
+  margin-left: 5%;
+}
+
+#btc_board {
+  grid-area: btc_board;
+}
+
+#eth_board {
+  grid-area: eth_board;
+}
+
+#top_10_alt_board {
+  grid-area: top_10_alt_board;
+}
